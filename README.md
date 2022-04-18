@@ -2,6 +2,7 @@
 
 Sapphire Suite's CMake function helpers.
 
+
 ## Documentations
 
 ### SA_FetchModule
@@ -9,6 +10,8 @@ Sapphire Suite's CMake function helpers.
 ### SA_FetchGoogleTest
 
 ### SA_SetMaxWarningLevel
+
+### SA_SetIntrinsicsFlags
 
 
 ## Authors

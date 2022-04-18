@@ -2,23 +2,23 @@
 
 
 
-# Set maximum compilation Warning level for target.
+# Set compilation intrinsics flags for target.
 #
 # USAGE:
-#	SA_SetMaxWarningLevel(
+#	SA_SetIntrinsicsFlags(
 #		TARGET		<target>
 #		LINK		<link_opt>
 #	)
 #
 # ARGUMENTS:
 #	TARGET
-#		Name of the target to set max warning level.
+#		Name of the target to set intrinsics flags.
 #
 #	LINK
 #		Target link option (PUBLIC | PRIVATE | INTERFACE).
 #		Default is PUBLIC.
 #
-function(SA_SetMaxWarningLevel)
+function(SA_SetIntrinsicsFlags)
 
 #{ Args
 
@@ -44,21 +44,13 @@ function(SA_SetMaxWarningLevel)
 #}
 
 
-	if(MSVC)
+	if("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
 
-		if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang") # ClangCl
+		target_compile_options(${_target} ${_linkOpt} /arch:AVX2)
 
-			target_compile_options(${PARGS_TARGET} ${PARGS_LINK} -W4)
+	else()
 
-		else() # MSVC
-
-			target_compile_options(${PARGS_TARGET} ${PARGS_LINK} /W4)
-
-		endif()
-
-	else() # GNU / Clang
-
-		target_compile_options(${PARGS_TARGET} ${PARGS_LINK} -Wall -Wextra)
+		target_compile_options(${_target} ${_linkOpt} -mavx -mavx2)
 
 	endif()
 

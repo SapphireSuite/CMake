@@ -3,3 +3,4 @@
 include(SA_FetchModule.cmake)
 include(SA_FetchGoogleTest.cmake)
 include(SA_SetMaxWarningLevel.cmake)
+include(SA_SetIntrinsicsFlags.cmake)
