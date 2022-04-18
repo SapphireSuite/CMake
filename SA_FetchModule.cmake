@@ -5,19 +5,31 @@
 include(FetchContent)
 
 
-function(SA_FetchModule _MODULE_NAME)
+# Clone a git repository from Sapphire Suite (module) at config time and add it to ThirdParty/SA/<repo_name>.
+# Automatically init git submodules.
+#
+# USAGE:
+#	SA_FetchModule(
+#		<module_name>
+#	)
+#
+# ARGUMENTS:
+#	MODULE_NAME
+#		Name of the Sapphire Suite's module to clone (name of the repository).
+#
+function(SA_FetchModule MODULE_NAME)
 
-	set(SA_MODULE_NAME "SA_${_MODULE_NAME}")
+	set(SA_MODULE_NAME "SA_${MODULE_NAME}")
 
 	if(NOT TARGET ${SA_MODULE_NAME})
 
 		message("Fetching ${SA_MODULE_NAME}...")
 
-		set(SA_MODULE_TARGET_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ThirdParty/SA/${_MODULE_NAME})
+		set(SA_MODULE_TARGET_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ThirdParty/SA/${MODULE_NAME})
 
 		FetchContent_Declare(
 			${SA_MODULE_NAME}
-			GIT_REPOSITORY	https://github.com/SapphireSuite/${_MODULE_NAME}.git
+			GIT_REPOSITORY	https://github.com/SapphireSuite/${MODULE_NAME}.git
 			GIT_TAG			main
 			SOURCE_DIR		${SA_MODULE_TARGET_SOURCE_DIR}
 		)
@@ -29,6 +41,13 @@ function(SA_FetchModule _MODULE_NAME)
 endfunction()
 
 
+
+# Clone GoogleTest repository at config time and add it to ThirdParty/.
+# Automatically init git submodules.
+#
+# USAGE:
+#	SA_FetchGoogleTest()
+#
 function(SA_FetchGoogleTest)
 
 	if(NOT TARGET gtest)
