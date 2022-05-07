@@ -46,11 +46,11 @@ function(SA_SetIntrinsicsFlags)
 
 	if("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
 
-		target_compile_options(${_target} ${_linkOpt} /arch:AVX2)
+		target_compile_options(${PARGS_TARGET} ${PARGS_LINK} /arch:AVX2)
 
 	else()
 
-		target_compile_options(${_target} ${_linkOpt} -mavx -mavx2)
+		target_compile_options(${PARGS_TARGET} ${PARGS_LINK} -mavx -mavx2)
 
 	endif()
 
