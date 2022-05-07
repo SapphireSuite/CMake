@@ -15,6 +15,10 @@ Sapphire Suite's CMake function helpers.
 
 ### SA_SetIntrinsicsFlags
 
+### SA_SetSanitizer
+
+### SA_SetupTargetForTesting
+
 
 ## Authors
 
