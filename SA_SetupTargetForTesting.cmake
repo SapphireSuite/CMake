@@ -44,6 +44,11 @@ function(SA_SetupTargetForTesting)
 
 #}
 
+	# CI option preprocessor.
+	if(SA_CI)
+		target_compile_definitions(${PARGS_TARGET} ${PARGS_LINK} SA_CI)
+	endif()
+
 	SA_SetMaxWarningLevel(TARGET ${PARGS_TARGET} LINK ${PARGS_LINK})
 	SA_SetSanitizers(TARGET ${PARGS_TARGET} LINK ${PARGS_LINK})
 
