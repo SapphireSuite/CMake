@@ -15,7 +15,7 @@ macro(__SA_SetupConfiguration_GCC_Clang)
 	set(CMAKE_CXX_FLAGS_DEBUG 			"${SA_BASE_FLAGS} -g -fsanitize=undefined")
 	set(CMAKE_CXX_FLAGS_RELEASE			"${SA_BASE_FLAGS} -O3 -DNDEBUG")
 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${SA_BASE_FLAGS} -g -O2 -DNDEBUG")
-	set(CMAKE_CXX_FLAGS_ADDRSAN			"${SA_BASE_FLAGS} -g -O1 -fsanitize=address -fno-omit-frame-pointer")
+	set(CMAKE_CXX_FLAGS_ADDRSAN			"${SA_BASE_FLAGS} -g -O1 -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer")
 	set(CMAKE_CXX_FLAGS_THREADSAN		"${SA_BASE_FLAGS} -g -O1 -fsanitize=thread -fno-omit-frame-pointer")
 	set(CMAKE_CXX_FLAGS_MEMORYSAN		"${SA_BASE_FLAGS} -g -O1 -fsanitize=memory -fno-omit-frame-pointer")
 
