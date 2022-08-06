@@ -40,18 +40,19 @@ function(SA_TargetPublicSources)
 
   #}
 
+	# Remove SA_ from target name to get folder name.
+	string(REPLACE "SA_" "" MODULE_NAME ${PARGS_TARGET})
 
 	file(GLOB_RECURSE SA_SOURCES_PUBLIC "${PARGS_FOLDER}/*.hpp")
 	message(VERBOSE "[SA] ${PARGS_TARGET} public sources: ${SA_SOURCES_PUBLIC}")
 
-	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER} PREFIX Public FILES ${SA_SOURCES_PUBLIC})
+	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}/SA/${MODULE_NAME} PREFIX Public FILES ${SA_SOURCES_PUBLIC})
 	target_sources(${PARGS_TARGET} PUBLIC ${SA_SOURCES_PUBLIC})
 
 	# Public include directory (access from project's outside).
 	target_include_directories(${PARGS_TARGET} PUBLIC ${PARGS_FOLDER})
 
 	# Private include directory (access from project's inside).
-	string(REPLACE "SA_" "" MODULE_NAME ${PARGS_TARGET}) # Remove SA_ from target name to get folder name.
 	target_include_directories(${PARGS_TARGET} PRIVATE ${PARGS_FOLDER}/SA/${MODULE_NAME})
 
 endfunction(SA_TargetPublicSources)
@@ -98,11 +99,13 @@ function(SA_TargetPrivateSources)
 
   #}
 
+  	# Remove SA_ from target name to get folder name.
+	string(REPLACE "SA_" "" MODULE_NAME ${PARGS_TARGET})
 
 	file(GLOB_RECURSE SA_SOURCES_PRIVATE "${PARGS_FOLDER}/*.hpp" "${PARGS_FOLDER}/*.cpp")
 	message(VERBOSE "[SA] ${PARGS_TARGET} private sources: ${SA_SOURCES_PRIVATE}")
 
-	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER} PREFIX Private FILES ${SA_SOURCES_PRIVATE})
+	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}/SA/${MODULE_NAME} PREFIX Private FILES ${SA_SOURCES_PRIVATE})
 	target_sources(${PARGS_TARGET} PRIVATE ${SA_SOURCES_PRIVATE})
 
 endfunction(SA_TargetPrivateSources)
