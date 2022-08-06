@@ -14,13 +14,12 @@ macro(__SA_SetupConfiguration_MSVC)
 	# /O[d, 1, 2, 3]: Code optimization level (d = disabled).
 	# /Oy-: Disable frame pointer omission.
 
-	set(SA_BASE_FLAGS 					"/MP /W4 /GR-")
-	set(CMAKE_CXX_FLAGS_DEBUG 			"${SA_BASE_FLAGS} /Zi") # /fsanitize=undefined not supported yet.
-	set(CMAKE_CXX_FLAGS_RELEASE			"${SA_BASE_FLAGS} /O2 -DNDEBUG")
-	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${SA_BASE_FLAGS} /Zi /Zo /O2 -DNDEBUG")
-	set(CMAKE_CXX_FLAGS_ADDRSAN			"${SA_BASE_FLAGS} /Zi /Zo /O1 /fsanitize=address /Oy-") # /fsanitize=leak not supported yet.
-	# set(CMAKE_CXX_FLAGS_THREADSAN		"${SA_BASE_FLAGS} /Zi /Zo /O1 /fsanitize=thread /Oy-") # Not supported yet.
-	# set(CMAKE_CXX_FLAGS_MEMORYSAN		"${SA_BASE_FLAGS} /Zi /Zo /O1 /fsanitize=memory /Oy-") # Not supported yet.
+	set(CMAKE_CXX_FLAGS_DEBUG 			"/Zi")
+	set(CMAKE_CXX_FLAGS_RELEASE			"/O2 -DNDEBUG")
+	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"/Zi /Zo /O2 -DNDEBUG")
+	set(CMAKE_CXX_FLAGS_ADDRSAN			"/Zi /Zo /O1")
+	set(CMAKE_CXX_FLAGS_THREADSAN		"/Zi /Zo /O1")
+	set(CMAKE_CXX_FLAGS_MEMORYSAN		"/Zi /Zo /O1")
 
 
 	# set(CMAKE_EXE_LINKER_FLAGS_DEBUG)
@@ -31,17 +30,45 @@ macro(__SA_SetupConfiguration_MSVC)
 	set(CMAKE_EXE_LINKER_FLAGS_MEMORYSAN "/DEBUG /INCREMENTAL:NO")
 
 
-	# set(SA_COMPILE_OPTIONS
-	# 	/MP /W4 /GR-									# All configs
-	# 	$<$<CONFIG:Debug>: 			/Zi 	/Od>
-	# 	$<$<CONFIG:Release>: 				/O3>
-	# 	$<$<CONFIG:RelWithDebInfo>: /Zi /Zo /O2>
-	# 	$<$<CONFIG:AddrSan>: 		/Zi /Zo /O1 /Oy->
-	# 	$<$<CONFIG:ThreadSan>: 		/Zi /Zo /O1 /Oy->
-	# 	$<$<CONFIG:MemorySan>: 		/Zi /Zo /O1 /Oy->
-	# )
+	set(SA_COMPILE_PUBLIC_OPTIONS
+		
+		$<$<CONFIG:Debug>:>
+		$<$<CONFIG:Release>:>
+		$<$<CONFIG:RelWithDebInfo>:>
+		$<$<CONFIG:AddrSan>:>
+		$<$<CONFIG:ThreadSan>:>
+		$<$<CONFIG:MemorySan>:>
+	)
 
-	# set(SA_LINK_OPTIONS
-	# )
+	set(SA_COMPILE_PRIVATE_OPTIONS
+		/MP /W4 /GR-
+		$<$<CONFIG:Debug>:> 									# /fsanitize=undefined not supported yet.
+		$<$<CONFIG:Release>:>
+		$<$<CONFIG:RelWithDebInfo>:>
+		$<$<CONFIG:AddrSan>: 		/fsanitize=address /Oy-> 	# /fsanitize=leak not supported yet.
+	#	$<$<CONFIG:ThreadSan>: 		/fsanitize=thread /Oy-> 	# Not supported yet.
+	#	$<$<CONFIG:MemorySan>: 		/fsanitize=memory /Oy-> 	# Not supported yet.
+	)
+
+
+	set(SA_LINK_PUBLIC_OPTIONS
+		
+		$<$<CONFIG:Debug>:>
+		$<$<CONFIG:Release>:>
+		$<$<CONFIG:RelWithDebInfo>:>
+		$<$<CONFIG:AddrSan>:>
+		$<$<CONFIG:ThreadSan>:>
+		$<$<CONFIG:MemorySan>:>
+	)
+
+	set(SA_LINK_PRIVATE_OPTIONS
+		
+		$<$<CONFIG:Debug>:>
+		$<$<CONFIG:Release>:>
+		$<$<CONFIG:RelWithDebInfo>:>
+		$<$<CONFIG:AddrSan>:>
+		$<$<CONFIG:ThreadSan>:>
+		$<$<CONFIG:MemorySan>:>
+	)
 
 endmacro(__SA_SetupConfiguration_MSVC)

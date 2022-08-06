@@ -48,6 +48,16 @@ function(SA_ConfigureTarget)
 	target_compile_features(${PARGS_TARGET} ${PARGS_LINK} cxx_std_20)
 
 
+	# Set project configuration compile & link options.
+	if(NOT ${PARGS_LINK} STREQUAL "INTERFACE")
+		target_compile_options(${PARGS_TARGET} PUBLIC ${SA_COMPILE_PUBLIC_OPTIONS})
+		target_compile_options(${PARGS_TARGET} PRIVATE ${SA_COMPILE_PRIVATE_OPTIONS})
+		
+		target_link_options(${PARGS_TARGET} PUBLIC ${SA_LINK_PUBLIC_OPTIONS})
+		target_link_options(${PARGS_TARGET} PRIVATE ${SA_LINK_PRIVATE_OPTIONS})
+	endif()
+
+
 	# Module implementation preprocessor.
 	string(TOUPPER ${PARGS_TARGET} SA_UPPER_TARGET)
 	target_compile_definitions(${PARGS_TARGET} ${PARGS_LINK} ${SA_UPPER_TARGET}_IMPL)
