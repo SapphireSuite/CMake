@@ -87,6 +87,19 @@ SA_SetIntrinsicsFlags(TARGET <target> LINK <link_opt>)
 > <link_opt> = PUBLIC
 
 
+## SA_SetRTTIFlags
+
+Helper function to enable RTTI compilation flags for a target.
+
+```cmake
+SA_SetRTTIFlags(TARGET <target> LINK <link_opt> TOGGLE <on_off>)
+```
+
+> Default values:
+> <link_opt> = PUBLIC
+> <on_off> = ON
+
+
 ## SA_TargetSouces
 
 Helper functions to add public and/or private sources and include directories to a target.
