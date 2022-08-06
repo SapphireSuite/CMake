@@ -16,7 +16,7 @@ macro(__SA_SetupConfiguration_MSVC)
 
 	set(SA_BASE_FLAGS 					"/MP /W4 /GR-")
 	set(CMAKE_CXX_FLAGS_DEBUG 			"${SA_BASE_FLAGS} /Zi") # /fsanitize=undefined not supported yet.
-	set(CMAKE_CXX_FLAGS_RELEASE			"${SA_BASE_FLAGS} /O3 -DNDEBUG")
+	set(CMAKE_CXX_FLAGS_RELEASE			"${SA_BASE_FLAGS} /O2 -DNDEBUG")
 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${SA_BASE_FLAGS} /Zi /Zo /O2 -DNDEBUG")
 	set(CMAKE_CXX_FLAGS_ADDRSAN			"${SA_BASE_FLAGS} /Zi /Zo /O1 /fsanitize=address /Oy-") # /fsanitize=leak not supported yet.
 	# set(CMAKE_CXX_FLAGS_THREADSAN		"${SA_BASE_FLAGS} /Zi /Zo /O1 /fsanitize=thread /Oy-") # Not supported yet.
