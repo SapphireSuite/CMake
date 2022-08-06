@@ -46,7 +46,13 @@ function(SA_TargetPublicSources)
 
 	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER} PREFIX Public FILES ${SA_SOURCES_PUBLIC})
 	target_sources(${PARGS_TARGET} PUBLIC ${SA_SOURCES_PUBLIC})
+
+	# Public include directory (access from project's outside).
 	target_include_directories(${PARGS_TARGET} PUBLIC ${PARGS_FOLDER})
+
+	# Private include directory (access from project's inside).
+	string(REPLACE "SA_" "" MODULE_NAME ${PARGS_TARGET}) # Remove SA_ from target name to get folder name.
+	target_include_directories(${PARGS_TARGET} PRIVATE ${PARGS_FOLDER}/SA/${MODULE_NAME})
 
 endfunction(SA_TargetPublicSources)
 
@@ -98,7 +104,6 @@ function(SA_TargetPrivateSources)
 
 	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER} PREFIX Private FILES ${SA_SOURCES_PRIVATE})
 	target_sources(${PARGS_TARGET} PRIVATE ${SA_SOURCES_PRIVATE})
-	target_include_directories(${PARGS_TARGET} PRIVATE ${PARGS_FOLDER})
 
 endfunction(SA_TargetPrivateSources)
 
@@ -108,7 +113,7 @@ endfunction(SA_TargetPrivateSources)
 #
 # USAGE:
 #	SA_TargetPublicSources(
-#		TARGET		<target>
+#		TARGET				<target>
 #		PUBLIC_FOLDER		<public_folder>
 #		PRIVATE_FOLDER		<private_folder>
 #	)
