@@ -1,7 +1,5 @@
 # Copyright (c) 2022 Sapphire's Suite. All Rights Reserved.
 
-
-
 # Set compilation intrinsics flags for target.
 #
 # USAGE:
@@ -17,10 +15,9 @@
 #	LINK
 #		Target link option (PUBLIC | PRIVATE | INTERFACE).
 #		Default is PUBLIC.
-#
 function(SA_SetIntrinsicsFlags)
 
-#{ Args
+  #{ Args
 
 	cmake_parse_arguments(
 		PARGS
@@ -41,10 +38,10 @@ function(SA_SetIntrinsicsFlags)
 		set(PARGS_LINK PUBLIC)
 	endif()
 
-#}
+  #}
 
 
-	if("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+	if("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC") # MSVC only (no ClangCl)
 
 		target_compile_options(${PARGS_TARGET} ${PARGS_LINK} /arch:AVX2)
 
@@ -54,4 +51,4 @@ function(SA_SetIntrinsicsFlags)
 
 	endif()
 
-endfunction()
+endfunction(SA_SetIntrinsicsFlags)

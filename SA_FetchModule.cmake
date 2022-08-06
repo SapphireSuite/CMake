@@ -1,9 +1,6 @@
 # Copyright (c) 2022 Sapphire's Suite. All Rights Reserved.
 
-
-
 include(FetchContent)
-
 
 # Clone a git repository from Sapphire Suite (module) at config time and add it to ThirdParty/SA/<repo_name>.
 # Automatically init git submodules.
@@ -38,4 +35,4 @@ function(SA_FetchModule MODULE_NAME)
 
 	endif()
 
-endfunction()
+endfunction(SA_FetchModule)

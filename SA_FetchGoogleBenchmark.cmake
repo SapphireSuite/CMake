@@ -1,8 +1,6 @@
 # Copyright (c) 2022 Sapphire's Suite. All Rights Reserved.
 
-
 include(FetchContent)
-
 
 # Clone Google Benchmark repository at config time and add it to ThirdParty/.
 # Automatically init git submodules.
@@ -27,4 +25,4 @@ function(SA_FetchGoogleBenchmark)
 
 	endif()
 
-endfunction()
+endfunction(SA_FetchGoogleBenchmark)
