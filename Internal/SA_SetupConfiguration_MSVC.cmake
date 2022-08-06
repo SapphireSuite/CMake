@@ -3,6 +3,9 @@
 # Internal helper macro to setup configurations for MSVC.
 macro(__SA_SetupConfiguration_MSVC)
 
+	set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan")
+	# set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan;ThreadSan;MemorySan") # Not supported yet.
+
 	# /MP: Build with multiple processes.
 	# /W[0, 1, 2, 3, 4]: Set compiler warning level.
 	# /GR-: Disable RTTI generation.

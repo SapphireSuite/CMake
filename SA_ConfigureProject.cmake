@@ -19,13 +19,6 @@ macro(SA_ConfigureProject PROJECT)
 	# Organize targets (and nesting targets) in IDE.
 	set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-
-  #{ Configutations
-
-	set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan;ThreadSan;MemorySan")
-
 	__SA_SetupConfiguration()
-
-  #}
 
 endmacro(SA_ConfigureProject)

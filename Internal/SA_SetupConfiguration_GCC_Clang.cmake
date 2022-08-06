@@ -3,6 +3,8 @@
 # Internal helper macro to setup configurations for GCC and Clang.
 macro(__SA_SetupConfiguration_GCC_Clang)
 
+	set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan;ThreadSan;MemorySan")
+
 	# -Wall: Enable all compiler warnings.
 	# -Wextra: Enable compiler extra warnings.
 	# -fno-rtti: Disable RTTI generation.
