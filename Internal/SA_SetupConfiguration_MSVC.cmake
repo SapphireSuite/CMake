@@ -15,12 +15,20 @@ macro(__SA_SetupConfiguration_MSVC)
 	# /Oy-: Disable frame pointer omission.
 
 	set(SA_BASE_FLAGS 					"/MP /W4 /GR-")
-	set(CMAKE_CXX_FLAGS_DEBUG 			"${SA_BASE_FLAGS} /Zi -fsanitize=undefined")
+	set(CMAKE_CXX_FLAGS_DEBUG 			"${SA_BASE_FLAGS} /Zi") # /fsanitize=undefined not supported yet.
 	set(CMAKE_CXX_FLAGS_RELEASE			"${SA_BASE_FLAGS} /O3 -DNDEBUG")
 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${SA_BASE_FLAGS} /Zi /Zo /O2 -DNDEBUG")
-	set(CMAKE_CXX_FLAGS_ADDRSAN			"${SA_BASE_FLAGS} /Zi /Zo /O1 -fsanitize=address /Oy-")
-	set(CMAKE_CXX_FLAGS_THREADSAN		"${SA_BASE_FLAGS} /Zi /Zo /O1 -fsanitize=thread /Oy-")
-	set(CMAKE_CXX_FLAGS_MEMORYSAN		"${SA_BASE_FLAGS} /Zi /Zo /O1 -fsanitize=memory /Oy-")
+	set(CMAKE_CXX_FLAGS_ADDRSAN			"${SA_BASE_FLAGS} /Zi /Zo /O1 /fsanitize=address /Oy-") # /fsanitize=leak not supported yet.
+	# set(CMAKE_CXX_FLAGS_THREADSAN		"${SA_BASE_FLAGS} /Zi /Zo /O1 /fsanitize=thread /Oy-") # Not supported yet.
+	# set(CMAKE_CXX_FLAGS_MEMORYSAN		"${SA_BASE_FLAGS} /Zi /Zo /O1 /fsanitize=memory /Oy-") # Not supported yet.
+
+
+	# set(CMAKE_EXE_LINKER_FLAGS_DEBUG)
+	# set(CMAKE_EXE_LINKER_FLAGS_RELEASE)
+	# set(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO)
+	set(CMAKE_EXE_LINKER_FLAGS_ADDRSAN "/DEBUG /INCREMENTAL:NO")
+	set(CMAKE_EXE_LINKER_FLAGS_THREADSAN "/DEBUG /INCREMENTAL:NO")
+	set(CMAKE_EXE_LINKER_FLAGS_MEMORYSAN "/DEBUG /INCREMENTAL:NO")
 
 
 	# set(SA_COMPILE_OPTIONS
