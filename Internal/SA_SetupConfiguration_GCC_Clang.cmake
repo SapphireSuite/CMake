@@ -31,10 +31,10 @@ macro(__SA_SetupConfiguration_GCC_Clang)
 
 	set(SA_COMPILE_PRIVATE_OPTIONS
 		-Wall -Wextra #[[-fno-rtti]]
-		$<$<CONFIG:Debug>: 			-fsanitize=undefined>
+		$<$<CONFIG:Debug>:>
 		$<$<CONFIG:Release>:>
 		$<$<CONFIG:RelWithDebInfo>:>
-		$<$<CONFIG:AddrSan>: 		-fsanitize=address -fsanitize=leak -fno-omit-frame-pointer>
+		$<$<CONFIG:AddrSan>: 		-fsanitize=address -fsanitize=undefined -fsanitize=leak -fno-omit-frame-pointer>
 		$<$<CONFIG:ThreadSan>: 		-fsanitize=thread -fno-omit-frame-pointer>
 		$<$<CONFIG:MemorySan>: 		-fsanitize=memory -fno-omit-frame-pointer>
 	)
@@ -52,10 +52,10 @@ macro(__SA_SetupConfiguration_GCC_Clang)
 
 	set(SA_LINK_PRIVATE_OPTIONS
 		
-		$<$<CONFIG:Debug>: 			-fsanitize=undefined>
+		$<$<CONFIG:Debug>:>
 		$<$<CONFIG:Release>:>
 		$<$<CONFIG:RelWithDebInfo>:>
-		$<$<CONFIG:AddrSan>: 		-fsanitize=address -fsanitize=leak>
+		$<$<CONFIG:AddrSan>: 		-fsanitize=address -fsanitize=undefined -fsanitize=leak>
 		$<$<CONFIG:ThreadSan>: 		-fsanitize=thread>
 		$<$<CONFIG:MemorySan>: 		-fsanitize=memory>
 	)

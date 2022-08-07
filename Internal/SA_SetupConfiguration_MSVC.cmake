@@ -42,10 +42,10 @@ macro(__SA_SetupConfiguration_MSVC)
 
 	set(SA_COMPILE_PRIVATE_OPTIONS
 		/MP /W4 #[[/GR-]]
-		$<$<CONFIG:Debug>:> 									# /fsanitize=undefined not supported yet.
+		$<$<CONFIG:Debug>:>
 		$<$<CONFIG:Release>:>
 		$<$<CONFIG:RelWithDebInfo>:>
-		$<$<CONFIG:AddrSan>: 		/fsanitize=address /Oy-> 	# /fsanitize=leak not supported yet.
+		$<$<CONFIG:AddrSan>: 		/fsanitize=address #[[/fsanitize=undefined]] #[[/fsanitize=leak]] /Oy-> # undefined and leak Not supported yet.
 	#	$<$<CONFIG:ThreadSan>: 		/fsanitize=thread /Oy-> 	# Not supported yet.
 	#	$<$<CONFIG:MemorySan>: 		/fsanitize=memory /Oy-> 	# Not supported yet.
 	)
@@ -66,7 +66,7 @@ macro(__SA_SetupConfiguration_MSVC)
 		$<$<CONFIG:Debug>:>
 		$<$<CONFIG:Release>:>
 		$<$<CONFIG:RelWithDebInfo>:>
-		$<$<CONFIG:AddrSan>:>
+		$<$<CONFIG:AddrSan>: clang_rt.asan_dynamic-x86_64.lib clang_rt.asan_dynamic_runtime_thunk-x86_64.lib clang_rt.ubsan_standalone_cxx-x86_64.lib>
 		$<$<CONFIG:ThreadSan>:>
 		$<$<CONFIG:MemorySan>:>
 	)

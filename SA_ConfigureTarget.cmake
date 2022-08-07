@@ -63,13 +63,6 @@ function(SA_ConfigureTarget)
 	target_compile_definitions(${PARGS_TARGET} ${PARGS_LINK} ${SA_UPPER_TARGET}_IMPL)
 
 
-	if(MSVC)
-
-		# Sanitizer required link.
-		target_link_libraries(${PARGS_TARGET} ${PARGS_LINK} $<$<CONFIG:AddrSan>: clang_rt.asan_dynamic-x86_64.lib clang_rt.asan_dynamic_runtime_thunk-x86_64.lib>)
-	
-	endif()
-
 	# CI option preprocessor.
 	if(SA_CI)
 		target_compile_definitions(${PARGS_TARGET} ${PARGS_LINK} SA_CI)
