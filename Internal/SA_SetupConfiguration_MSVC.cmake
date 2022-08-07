@@ -41,7 +41,7 @@ macro(__SA_SetupConfiguration_MSVC)
 	)
 
 	set(SA_COMPILE_PRIVATE_OPTIONS
-		/MP /W4 /GR-
+		/MP /W4 #[[/GR-]]
 		$<$<CONFIG:Debug>:> 									# /fsanitize=undefined not supported yet.
 		$<$<CONFIG:Release>:>
 		$<$<CONFIG:RelWithDebInfo>:>

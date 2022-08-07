@@ -30,7 +30,7 @@ macro(__SA_SetupConfiguration_GCC_Clang)
 	)
 
 	set(SA_COMPILE_PRIVATE_OPTIONS
-		-Wall -Wextra -fno-rtti
+		-Wall -Wextra #[[-fno-rtti]]
 		$<$<CONFIG:Debug>: 			-fsanitize=undefined>
 		$<$<CONFIG:Release>:>
 		$<$<CONFIG:RelWithDebInfo>:>
