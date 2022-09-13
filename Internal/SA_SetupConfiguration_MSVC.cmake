@@ -3,8 +3,8 @@
 # Internal helper macro to setup configurations for MSVC.
 macro(__SA_SetupConfiguration_MSVC)
 
-	set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan")
-	# set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan;ThreadSan;MemorySan") # Not supported yet.
+	#set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan")
+	#set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan;ThreadSan;MemorySan") # Not supported yet.
 
 	# /MP: Build with multiple processes.
 	# /W[0, 1, 2, 3, 4]: Set compiler warning level.
@@ -14,9 +14,9 @@ macro(__SA_SetupConfiguration_MSVC)
 	# /O[d, 1, 2, 3]: Code optimization level (d = disabled).
 	# /Oy-: Disable frame pointer omission.
 
-	set(CMAKE_CXX_FLAGS_DEBUG 			"/Zi")
-	set(CMAKE_CXX_FLAGS_RELEASE			"/O2 -DNDEBUG")
-	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"/Zi /Zo /O2 -DNDEBUG")
+	#set(CMAKE_CXX_FLAGS_DEBUG 			"/Zi")
+	#set(CMAKE_CXX_FLAGS_RELEASE			"/O2 -DNDEBUG")
+	#set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"/Zi /Zo /O2 -DNDEBUG")
 	set(CMAKE_CXX_FLAGS_ADDRSAN			"/Zi /Zo /O1")
 	set(CMAKE_CXX_FLAGS_THREADSAN		"/Zi /Zo /O1")
 	set(CMAKE_CXX_FLAGS_MEMORYSAN		"/Zi /Zo /O1")

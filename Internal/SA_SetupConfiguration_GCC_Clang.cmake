@@ -3,7 +3,7 @@
 # Internal helper macro to setup configurations for GCC and Clang.
 macro(__SA_SetupConfiguration_GCC_Clang)
 
-	set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan;ThreadSan;MemorySan")
+	#set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo;AddrSan;ThreadSan;MemorySan")
 
 	# -Wall: Enable all compiler warnings.
 	# -Wextra: Enable compiler extra warnings.
@@ -12,9 +12,9 @@ macro(__SA_SetupConfiguration_GCC_Clang)
 	# -O[0, 1, 2, 3]: Code optimization level (d = disabled).
 	# -fsanitize=undefined: Track undefined behaviors.
 	
-	set(CMAKE_CXX_FLAGS_DEBUG 			"-g")
-	set(CMAKE_CXX_FLAGS_RELEASE 		"-O3 -DNDEBUG")
-	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO 	"-g -O2 -DNDEBUG")
+	#set(CMAKE_CXX_FLAGS_DEBUG 			"-g")
+	#set(CMAKE_CXX_FLAGS_RELEASE 		"-O3 -DNDEBUG")
+	#set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"-g -O2 -DNDEBUG")
 	set(CMAKE_CXX_FLAGS_ADDRSAN 		"-g -O1")
 	set(CMAKE_CXX_FLAGS_THREADSAN 		"-g -O1")
 	set(CMAKE_CXX_FLAGS_MEMORYSAN 		"-g -O1")
