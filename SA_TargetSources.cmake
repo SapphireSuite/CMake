@@ -36,6 +36,9 @@ function(SA_TargetPublicSources)
 	# Default "Include".
 	if(NOT PARGS_FOLDER)
 		set(PARGS_FOLDER Include)
+		set(TREE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}/SA/${MODULE_NAME}")
+	else()
+		set(TREE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}")
 	endif()
 
   #}
@@ -46,7 +49,7 @@ function(SA_TargetPublicSources)
 	file(GLOB_RECURSE SA_SOURCES_PUBLIC "${PARGS_FOLDER}/*.hpp")
 	message(VERBOSE "[SA] ${PARGS_TARGET} public sources: ${SA_SOURCES_PUBLIC}")
 
-	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}/SA/${MODULE_NAME} PREFIX Public FILES ${SA_SOURCES_PUBLIC})
+	source_group(TREE ${TREE_ROOT} PREFIX Public FILES ${SA_SOURCES_PUBLIC})
 	target_sources(${PARGS_TARGET} PUBLIC ${SA_SOURCES_PUBLIC})
 
 	# Public include directory (access from project's outside).
@@ -95,7 +98,10 @@ function(SA_TargetPrivateSources)
 	# Default "Source".
 	if(NOT PARGS_FOLDER)
 		set(PARGS_FOLDER Source)
-	endif()
+		set(TREE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}/SA/${MODULE_NAME}")
+	else()
+		set(TREE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}")
+		endif()
 
   #}
 
@@ -105,7 +111,7 @@ function(SA_TargetPrivateSources)
 	file(GLOB_RECURSE SA_SOURCES_PRIVATE "${PARGS_FOLDER}/*.hpp" "${PARGS_FOLDER}/*.cpp")
 	message(VERBOSE "[SA] ${PARGS_TARGET} private sources: ${SA_SOURCES_PRIVATE}")
 
-	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}/SA/${MODULE_NAME} PREFIX Private FILES ${SA_SOURCES_PRIVATE})
+	source_group(TREE ${TREE_ROOT} PREFIX Private FILES ${SA_SOURCES_PRIVATE})
 	target_sources(${PARGS_TARGET} PRIVATE ${SA_SOURCES_PRIVATE})
 
 endfunction(SA_TargetPrivateSources)
