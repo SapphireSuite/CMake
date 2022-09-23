@@ -40,7 +40,7 @@ Helper function to configure a cmake target to match Sapphire Suite's requiremen
 Should be called after add_library or add_executable target.
 
 ```cmake
-SA_ConfigureProject(TARGET <target> LINK <link_opt>)
+SA_ConfigureProject(<target> LINK <link_opt>)
 ```
 
 > Default values:
@@ -80,7 +80,7 @@ SA_FetchModule(<module_name>)
 Helper function to enable intrinsics compilation flags for a target.
 
 ```cmake
-SA_SetIntrinsicsFlags(TARGET <target> LINK <link_opt>)
+SA_SetIntrinsicsFlags(<target> LINK <link_opt>)
 ```
 
 > Default values:
@@ -92,7 +92,7 @@ SA_SetIntrinsicsFlags(TARGET <target> LINK <link_opt>)
 Helper function to enable RTTI compilation flags for a target.
 
 ```cmake
-SA_SetRTTIFlags(TARGET <target> LINK <link_opt> TOGGLE <on_off>)
+SA_SetRTTIFlags(<target> LINK <link_opt> TOGGLE <on_off>)
 ```
 
 > Default values:
@@ -105,14 +105,15 @@ SA_SetRTTIFlags(TARGET <target> LINK <link_opt> TOGGLE <on_off>)
 Helper functions to add public and/or private sources and include directories to a target.
 
 ```cmake
-SA_TargetSources(TARGET <target> PUBLIC_FOLDER <public_folder> PRIVATE_FOLDER <private_folder>)
-SA_TargetPublicSources(TARGET <target> FOLDER <public_folder>)
-SA_TargetPrivateSources(TARGET <target> FOLDER <private_folder>)
+SA_TargetSources(<target> PUBLIC_SRC_DIR <public_src_dir> PUBLIC_INCL_DIR <public_include_dir> PRIVATE_SRC_DIR <private_src_dir>)
+SA_TargetPublicSources(<target> SRC_DIR <public_src_dir> INCL_DIR <public_include_dir>)
+SA_TargetPrivateSources(<target> SRC_DIR <private_src_dir>)
 ```
 
 > Default values:
-> <public_folder> = "Include"
-> <private_folder> = "Source"
+> <public_src_dir> = "Include/SA/<module_name>"
+> <public_include_dir> = "Include"
+> <private_src_dir> = "Source/SA/<module_name>"
 
 
 
