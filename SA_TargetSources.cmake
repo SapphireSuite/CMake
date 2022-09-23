@@ -4,74 +4,63 @@
 #
 # USAGE:
 #	SA_TargetPublicSources(
-#		TARGET				<target>
-#		FOLDER				<public_folder>
-#		TOGGLE_INCLUDE_DIR 	<on_off_include_dir>
+#		<target>
+#		SRC_DIR				<public_src_dir>
+#		INCL_DIR			<public_include_dir>
+#		INCLUDE_DIR_OPT 	<include_dir_opt>
 #	)
 #
 # ARGUMENTS:
 #	TARGET
 #		Name of the cmake target.
 #
-#	FOLDER
+#	SRC_DIR
 #		Public source folder.
-#		Default is "Include".
+#		Default is "Include/SA/<module_name>".
 #
-#	TOGGLE_INCLUDE_DIR
-#		Should add include directory to target
-#		Default is ON
-function(SA_TargetPublicSources)
+#	INCL_DIR
+#		Public include directory.
+#		Path used from outside target to access include directory.
+function(SA_TargetPublicSources _target)
 	
   #{ Args
 
 	cmake_parse_arguments(
 		PARGS
 		""
-		"TARGET;FOLDER;TOGGLE_INCLUDE_DIR"
+		"SRC_DIR;INCL_DIR"
 		""
 		${ARGN}
 	)
 
+	# Remove SA_ from target name to get folder name.
+	string(REPLACE "SA_" "" MODULE_NAME ${_target})
 
-	if(NOT PARGS_TARGET)
-		message(FATAL_ERROR "Missing TARGET argument")
+	# Default "Include/SA/<module_name>".
+	if(NOT PARGS_SRC_DIR)
+		set(PARGS_SRC_DIR "Include/SA/${MODULE_NAME}")
 	endif()
-
 
 	# Default "Include".
-	if(NOT PARGS_FOLDER)
-		set(PARGS_FOLDER Include)
-		set(TREE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}/SA/${MODULE_NAME}")
-	else()
-		set(TREE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}")
-	endif()
-
-
-	# Default true
-	if(NOT PARGS_TOGGLE_INCLUDE_DIR)
-		set(PARGS_TOGGLE_INCLUDE_DIR ON)
+	if(NOT PARGS_INCL_DIR)
+		set(PARGS_INCL_DIR Include)
 	endif()
 
   #}
 
-	# Remove SA_ from target name to get folder name.
-	string(REPLACE "SA_" "" MODULE_NAME ${PARGS_TARGET})
+	file(GLOB_RECURSE SA_SOURCES_PUBLIC "${PARGS_SRC_DIR}/*.hpp")
+	message(VERBOSE "[SA] ${_target} public sources: ${SA_SOURCES_PUBLIC}")
 
-	file(GLOB_RECURSE SA_SOURCES_PUBLIC "${PARGS_FOLDER}/*.hpp")
-	message(VERBOSE "[SA] ${PARGS_TARGET} public sources: ${SA_SOURCES_PUBLIC}")
+	source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_SRC_DIR}" PREFIX Public FILES ${SA_SOURCES_PUBLIC})
+	target_sources(${_target} PUBLIC ${SA_SOURCES_PUBLIC})
 
-	source_group(TREE ${TREE_ROOT} PREFIX Public FILES ${SA_SOURCES_PUBLIC})
-	target_sources(${PARGS_TARGET} PUBLIC ${SA_SOURCES_PUBLIC})
 
-	if("${PARGS_TOGGLE_INCLUDE_DIR}" STREQUAL "ON")
-
-		# Public include directory (access from project's outside).
-		target_include_directories(${PARGS_TARGET} PUBLIC ${PARGS_FOLDER})
-
-		# Private include directory (access from project's inside).
-		target_include_directories(${PARGS_TARGET} PRIVATE ${PARGS_FOLDER}/SA/${MODULE_NAME})
-
-	endif()
+	## Include directories
+	# Public include directory (access from project's outside).
+	target_include_directories(${_target} PUBLIC ${PARGS_INCL_DIR})
+	
+	# Private include directory (access from project's inside).
+	target_include_directories(${_target} PRIVATE ${PARGS_SRC_DIR})
 
 endfunction(SA_TargetPublicSources)
 
@@ -81,53 +70,44 @@ endfunction(SA_TargetPublicSources)
 #
 # USAGE:
 #	SA_TargetPrivateSources(
-#		TARGET		<target>
-#		FOLDER		<private_folder>
+#		<target>
+#		SRC_DIR		<private_src_dir>
 #	)
 #
 # ARGUMENTS:
 #	TARGET
 #		Name of the cmake target.
 #
-#	FOLDER
+#	SRC_DIR
 #		Private source folder.
-#		Default is "Source".
-function(SA_TargetPrivateSources)
+#		Default is "Source/SA/<module_name>".
+function(SA_TargetPrivateSources _target)
 	
   #{ Args
 
 	cmake_parse_arguments(
 		PARGS
 		""
-		"TARGET;FOLDER"
+		"SRC_DIR"
 		""
 		${ARGN}
 	)
 
+	# Remove SA_ from target name to get folder name.
+	string(REPLACE "SA_" "" MODULE_NAME ${_target})
 
-	if(NOT PARGS_TARGET)
-		message(FATAL_ERROR "Missing TARGET argument")
+	# Default "Source/SA/<module_name>".
+	if(NOT PARGS_SRC_DIR)
+		set(PARGS_SRC_DIR "Source/SA/${MODULE_NAME}")
 	endif()
-
-
-	# Default "Source".
-	if(NOT PARGS_FOLDER)
-		set(PARGS_FOLDER Source)
-		set(TREE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}/SA/${MODULE_NAME}")
-	else()
-		set(TREE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}")
-		endif()
 
   #}
 
-  	# Remove SA_ from target name to get folder name.
-	string(REPLACE "SA_" "" MODULE_NAME ${PARGS_TARGET})
+	file(GLOB_RECURSE SA_SOURCES_PRIVATE "${PARGS_SRC_DIR}/*.hpp" "${PARGS_SRC_DIR}/*.cpp")
+	message(VERBOSE "[SA] ${_target} private sources: ${SA_SOURCES_PRIVATE}")
 
-	file(GLOB_RECURSE SA_SOURCES_PRIVATE "${PARGS_FOLDER}/*.hpp" "${PARGS_FOLDER}/*.cpp")
-	message(VERBOSE "[SA] ${PARGS_TARGET} private sources: ${SA_SOURCES_PRIVATE}")
-
-	source_group(TREE ${TREE_ROOT} PREFIX Private FILES ${SA_SOURCES_PRIVATE})
-	target_sources(${PARGS_TARGET} PRIVATE ${SA_SOURCES_PRIVATE})
+	source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_SRC_DIR}" PREFIX Private FILES ${SA_SOURCES_PRIVATE})
+	target_sources(${_target} PRIVATE ${SA_SOURCES_PRIVATE})
 
 endfunction(SA_TargetPrivateSources)
 
@@ -137,67 +117,47 @@ endfunction(SA_TargetPrivateSources)
 #
 # USAGE:
 #	SA_TargetInterfaceSources(
-#		TARGET				<target>
-#		FOLDER				<interface_folder>
-#		TOGGLE_INCLUDE_DIR 	<on_off_include_dir>
+#		<target>
+#		SRC_DIR				<interface_src_folder>
 #	)
 #
 # ARGUMENTS:
 #	TARGET
 #		Name of the cmake target.
 #
-#	FOLDER
+#	SRC_DIR
 #		Interface source folder.
-#		Default is "Include".
-#
-#	TOGGLE_INCLUDE_DIR
-#		Should add include directory to target
-#		Default is ON
-function(SA_TargetInterfaceSources)
+#		Default is "Include/SA/<module_name>".
+function(SA_TargetInterfaceSources _target)
 	
   #{ Args
 
 	cmake_parse_arguments(
 		PARGS
 		""
-		"TARGET;FOLDER;TOGGLE_INCLUDE_DIR"
+		"SRC_DIR"
 		""
 		${ARGN}
 	)
 
+	# Remove SA_ from target name to get folder name.
+	string(REPLACE "SA_" "" MODULE_NAME ${_target})
 
-	if(NOT PARGS_TARGET)
-		message(FATAL_ERROR "Missing TARGET argument")
-	endif()
-
-
-	# Default "Include".
-	if(NOT PARGS_FOLDER)
-		set(PARGS_FOLDER Include)
-	endif()
-
-	# Default true
-	if(NOT PARGS_TOGGLE_INCLUDE_DIR)
-		set(PARGS_TOGGLE_INCLUDE_DIR ON)
+	# Default "Include/SA/<module_name>".
+	if(NOT PARGS_SRC_DIR)
+		set(PARGS_FOLDER "Include/SA/${MODULE_NAME}")
 	endif()
 
   #}
 
-	# Remove SA_ from target name to get folder name.
-	string(REPLACE "SA_" "" MODULE_NAME ${PARGS_TARGET})
+	file(GLOB_RECURSE SA_SOURCES_INTERFACE "${PARGS_SRC_DIR}/*.hpp")
+	message(VERBOSE "[SA] ${_target} interface sources: ${SA_SOURCES_INTERFACE}")
 
-	file(GLOB_RECURSE SA_SOURCES_INTERFACE "${PARGS_FOLDER}/*.hpp")
-	message(VERBOSE "[SA] ${PARGS_TARGET} interface sources: ${SA_SOURCES_INTERFACE}")
+	source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_SRC_DIR}" PREFIX Public FILES ${SA_SOURCES_INTERFACE})
+	target_sources(${_target} INTERFACE ${SA_SOURCES_INTERFACE})
 
-	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_FOLDER}/SA/${MODULE_NAME} PREFIX Public FILES ${SA_SOURCES_INTERFACE})
-	target_sources(${PARGS_TARGET} INTERFACE ${SA_SOURCES_INTERFACE})
-
-	if("${PARGS_TOGGLE_INCLUDE_DIR}" STREQUAL "ON")
-
-		# Interface include directory (access from project's outside).
-		target_include_directories(${PARGS_TARGET} INTERFACE ${PARGS_FOLDER})
-
-	endif()
+	# Interface include directory (access from project's outside).
+	target_include_directories(${_target} INTERFACE ${PARGS_SRC_DIR})
 
 endfunction(SA_TargetInterfaceSources)
 
@@ -205,49 +165,44 @@ endfunction(SA_TargetInterfaceSources)
 # Add sources and include directories to a target (using target_sources and target_include_directories).
 #
 # USAGE:
-#	SA_TargetPublicSources(
-#		TARGET				<target>
-#		PUBLIC_FOLDER		<public_folder>
-#		PRIVATE_FOLDER		<private_folder>
-#		TOGGLE_INCLUDE_DIR 	<on_off_include_dir>
+#	SA_TargetSources(
+#		<target>
+#		PUBLIC_SRC_DIR		<public_folder>
+#		PUBLIC_INCL_DIR		<public_folder>
+#		PRIVATE_SRC_DIR		<private_folder>
 #	)
 #
 # ARGUMENTS:
 #	TARGET
 #		Name of the cmake target.
 #
-#	PUBLIC_FOLDER
-#		Public source folder.
-#		Default is "Include".
+#	PUBLIC_SRC_DIR
+#		Public source directory.
+#		Default is "Include/SA/<module_name>".
 #
-#	PRIVATE_FOLDER
-#		Private source folder.
-#		Default is "Source".
+#	PUBLIC_INCL_DIR
+#		Public include directory.
+#		Default is "Include/"
 #
-#	TOGGLE_INCLUDE_DIR
-#		Should add include directory to target
-#		Default is ON
-function(SA_TargetSources)
+#	PRIVATE_SRC_DIR
+#		Private source directory.
+#		Default is "Source/SA/<module_name>".
+function(SA_TargetSources _target)
 	
   #{ Args
 
 	cmake_parse_arguments(
 		PARGS
 		""
-		"TARGET;PUBLIC_FOLDER;PRIVATE_FOLDER;TOGGLE_INCLUDE_DIR"
+		"PUBLIC_SRC_DIR;PUBLIC_INCL_DIR;PRIVATE_SRC_DIR"
 		""
 		${ARGN}
 	)
 
-
-	if(NOT PARGS_TARGET)
-		message(FATAL_ERROR "Missing TARGET argument")
-	endif()
-
   #}
 
 
-	SA_TargetPublicSources(TARGET ${PARGS_TARGET} FOLDER ${PARGS_PUBLIC_FOLDER} TOGGLE_INCLUDE_DIR ${PARGS_TOGGLE_INCLUDE_DIR})
-	SA_TargetPrivateSources(TARGET ${PARGS_TARGET} FOLDER ${PARGS_PRIVATE_FOLDER})
+	SA_TargetPublicSources(${_target} FOLDER ${PUBLIC_SRC_DIR} INCL_DIR ${PUBLIC_INCL_DIR})
+	SA_TargetPrivateSources(${_target} FOLDER ${PRIVATE_SRC_DIR})
 
 endfunction(SA_TargetSources)
