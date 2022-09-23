@@ -59,9 +59,13 @@ function(SA_TargetPublicSources _target)
 
 
 	## Include directories
-	# Public include directory (access from project's outside).
-	target_include_directories(${_target} PUBLIC ${PARGS_INCL_DIR})
+	if(NOT "${PARGS_INCL_DIR}" STREQUAL "OFF")
+
+		# Public include directory (access from project's outside).
+		target_include_directories(${_target} PUBLIC ${PARGS_INCL_DIR})
 	
+	endif()
+
 	# Private include directory (access from project's inside).
 	target_include_directories(${_target} PRIVATE ${PARGS_SRC_DIR})
 
@@ -175,8 +179,14 @@ function(SA_TargetInterfaceSources _target)
 	source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/${PARGS_SRC_DIR}" PREFIX Public FILES ${SA_SOURCES_INTERFACE})
 	target_sources(${_target} INTERFACE ${SA_SOURCES_INTERFACE})
 
-	# Interface include directory (access from project's outside).
-	target_include_directories(${_target} INTERFACE ${PARGS_INCL_DIR})
+
+	## Include directories
+	if(NOT "${PARGS_INCL_DIR}" STREQUAL "OFF")
+
+		# Interface include directory (access from project's outside).
+		target_include_directories(${_target} INTERFACE ${PARGS_INCL_DIR})
+
+	endif()
 
 endfunction(SA_TargetInterfaceSources)
 
