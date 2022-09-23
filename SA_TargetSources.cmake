@@ -220,8 +220,7 @@ function(SA_TargetSources _target)
 
   #}
 
-
-	SA_TargetPublicSources(${_target} FOLDER ${PUBLIC_SRC_DIR} INCL_DIR ${PUBLIC_INCL_DIR})
-	SA_TargetPrivateSources(${_target} FOLDER ${PRIVATE_SRC_DIR})
+	SA_TargetPublicSources(${_target} SRC_DIR ${PARGS_PUBLIC_SRC_DIR} INCL_DIR ${PARGS_PUBLIC_INCL_DIR})
+	SA_TargetPrivateSources(${_target} SRC_DIR ${PARGS_PRIVATE_SRC_DIR})
 
 endfunction(SA_TargetSources)
