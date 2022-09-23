@@ -4,7 +4,7 @@
 #
 # USAGE:
 #	SA_SetRTTIFlags(
-#		TARGET		<target>
+#		<target>
 #		LINK		<link_opt>
 #	)
 #
@@ -19,22 +19,17 @@
 #	TOGGLE
 #		Toggle flag (ON | OFF).
 #		Default is ON.
-function(SA_SetRTTIFlags)
+function(SA_SetRTTIFlags _target)
 
   #{ Args
 
 	cmake_parse_arguments(
 		PARGS
 		""
-		"TARGET;LINK;TOGGLE"
+		"LINK;TOGGLE"
 		""
 		${ARGN}
 	)
-
-
-	if(NOT PARGS_TARGET)
-		message(FATAL_ERROR "Missing TARGET argument")
-	endif()
 
 
 	# Default PUBLIC.
@@ -72,11 +67,11 @@ function(SA_SetRTTIFlags)
 
 	if(MSVC)
 
-		target_compile_options(${PARGS_TARGET} ${PARGS_LINK} ${MSVC_FLAG})
+		target_compile_options(${_target} ${PARGS_LINK} ${MSVC_FLAG})
 
 	else()
 
-		target_compile_options(${PARGS_TARGET} ${PARGS_LINK} ${GCC_CLANG_FLAG})
+		target_compile_options(${_target} ${PARGS_LINK} ${GCC_CLANG_FLAG})
 
 	endif()
 

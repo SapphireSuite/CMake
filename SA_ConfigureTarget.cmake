@@ -6,7 +6,7 @@
 #
 # USAGE:
 #	SA_ConfigureTarget(
-#		TARGET	<target>
+#		<target>
 #		LINK	<link_opt>
 #	)
 #
@@ -17,23 +17,17 @@
 #	LINK
 #		Target link option (PUBLIC | PRIVATE | INTERFACE).
 #		Default is PUBLIC.
-function(SA_ConfigureTarget)
+function(SA_ConfigureTarget _target)
 
  #{ Args
 
 	cmake_parse_arguments(
 		PARGS
 		""
-		"TARGET;LINK"
+		"LINK"
 		""
 		${ARGN}
 	)
-
-
-	if(NOT PARGS_TARGET)
-		message(FATAL_ERROR "Missing TARGET argument")
-	endif()
-
 
 	# Default PUBLIC.
 	if(NOT PARGS_LINK)
@@ -44,28 +38,28 @@ function(SA_ConfigureTarget)
 
 
 	# Standard
-	target_compile_features(${PARGS_TARGET} ${PARGS_LINK} c_std_11)
-	target_compile_features(${PARGS_TARGET} ${PARGS_LINK} cxx_std_20)
+	target_compile_features(${_target} ${PARGS_LINK} c_std_11)
+	target_compile_features(${_target} ${PARGS_LINK} cxx_std_20)
 
 
 	# Set project configuration compile & link options.
 	if(NOT ${PARGS_LINK} STREQUAL "INTERFACE")
-		target_compile_options(${PARGS_TARGET} PUBLIC ${SA_COMPILE_PUBLIC_OPTIONS})
-		target_compile_options(${PARGS_TARGET} PRIVATE ${SA_COMPILE_PRIVATE_OPTIONS})
+		target_compile_options(${_target} PUBLIC ${SA_COMPILE_PUBLIC_OPTIONS})
+		target_compile_options(${_target} PRIVATE ${SA_COMPILE_PRIVATE_OPTIONS})
 		
-		target_link_options(${PARGS_TARGET} PUBLIC ${SA_LINK_PUBLIC_OPTIONS})
-		target_link_options(${PARGS_TARGET} PRIVATE ${SA_LINK_PRIVATE_OPTIONS})
+		target_link_options(${_target} PUBLIC ${SA_LINK_PUBLIC_OPTIONS})
+		target_link_options(${_target} PRIVATE ${SA_LINK_PRIVATE_OPTIONS})
 	endif()
 
 
 	# Module implementation preprocessor.
-	string(TOUPPER ${PARGS_TARGET} SA_UPPER_TARGET)
-	target_compile_definitions(${PARGS_TARGET} ${PARGS_LINK} ${SA_UPPER_TARGET}_IMPL)
+	string(TOUPPER ${_target} SA_UPPER_TARGET)
+	target_compile_definitions(${_target} ${PARGS_LINK} ${SA_UPPER_TARGET}_IMPL)
 
 
 	# CI option preprocessor.
 	if(SA_CI)
-		target_compile_definitions(${PARGS_TARGET} ${PARGS_LINK} SA_CI)
+		target_compile_definitions(${_target} ${PARGS_LINK} SA_CI)
 	endif()
 
 endfunction(SA_ConfigureTarget)

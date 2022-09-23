@@ -4,7 +4,7 @@
 #
 # USAGE:
 #	SA_SetIntrinsicsFlags(
-#		TARGET		<target>
+#		<target>
 #		LINK		<link_opt>
 #	)
 #
@@ -15,23 +15,17 @@
 #	LINK
 #		Target link option (PUBLIC | PRIVATE | INTERFACE).
 #		Default is PUBLIC.
-function(SA_SetIntrinsicsFlags)
+function(SA_SetIntrinsicsFlags _target)
 
   #{ Args
 
 	cmake_parse_arguments(
 		PARGS
 		""
-		"TARGET;LINK"
+		"LINK"
 		""
 		${ARGN}
 	)
-
-
-	if(NOT PARGS_TARGET)
-		message(FATAL_ERROR "Missing TARGET argument")
-	endif()
-
 
 	# Default PUBLIC.
 	if(NOT PARGS_LINK)
@@ -43,11 +37,11 @@ function(SA_SetIntrinsicsFlags)
 
 	if("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC") # MSVC only (no ClangCl)
 
-		target_compile_options(${PARGS_TARGET} ${PARGS_LINK} /arch:AVX2)
+		target_compile_options(${_target} ${PARGS_LINK} /arch:AVX2)
 
 	else()
 
-		target_compile_options(${PARGS_TARGET} ${PARGS_LINK} -mavx -mavx2)
+		target_compile_options(${_target} ${PARGS_LINK} -mavx -mavx2)
 
 	endif()
 
