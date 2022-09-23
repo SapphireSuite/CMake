@@ -7,7 +7,6 @@
 #		<target>
 #		SRC_DIR				<public_src_dir>
 #		INCL_DIR			<public_include_dir>
-#		INCLUDE_DIR_OPT 	<include_dir_opt>
 #	)
 #
 # ARGUMENTS:
@@ -21,6 +20,7 @@
 #	INCL_DIR
 #		Public include directory.
 #		Path used from outside target to access include directory.
+#		Default is "Include"
 function(SA_TargetPublicSources _target)
 	
   #{ Args
@@ -33,13 +33,16 @@ function(SA_TargetPublicSources _target)
 		${ARGN}
 	)
 
+
 	# Remove SA_ from target name to get folder name.
 	string(REPLACE "SA_" "" MODULE_NAME ${_target})
+
 
 	# Default "Include/SA/<module_name>".
 	if(NOT PARGS_SRC_DIR)
 		set(PARGS_SRC_DIR "Include/SA/${MODULE_NAME}")
 	endif()
+
 
 	# Default "Include".
 	if(NOT PARGS_INCL_DIR)
@@ -93,8 +96,10 @@ function(SA_TargetPrivateSources _target)
 		${ARGN}
 	)
 
+
 	# Remove SA_ from target name to get folder name.
 	string(REPLACE "SA_" "" MODULE_NAME ${_target})
+
 
 	# Default "Source/SA/<module_name>".
 	if(NOT PARGS_SRC_DIR)
@@ -119,6 +124,7 @@ endfunction(SA_TargetPrivateSources)
 #	SA_TargetInterfaceSources(
 #		<target>
 #		SRC_DIR				<interface_src_folder>
+#		INCL_DIR			<public_include_dir>
 #	)
 #
 # ARGUMENTS:
@@ -128,6 +134,11 @@ endfunction(SA_TargetPrivateSources)
 #	SRC_DIR
 #		Interface source folder.
 #		Default is "Include/SA/<module_name>".
+#
+#	INCL_DIR
+#		Interface include directory.
+#		Path used from outside target to access include directory.
+#		Default is "Include"
 function(SA_TargetInterfaceSources _target)
 	
   #{ Args
@@ -135,17 +146,25 @@ function(SA_TargetInterfaceSources _target)
 	cmake_parse_arguments(
 		PARGS
 		""
-		"SRC_DIR"
+		"SRC_DIR;INCL_DIR"
 		""
 		${ARGN}
 	)
 
+
 	# Remove SA_ from target name to get folder name.
 	string(REPLACE "SA_" "" MODULE_NAME ${_target})
 
+
 	# Default "Include/SA/<module_name>".
 	if(NOT PARGS_SRC_DIR)
-		set(PARGS_FOLDER "Include/SA/${MODULE_NAME}")
+		set(PARGS_SRC_DIR "Include/SA/${MODULE_NAME}")
+	endif()
+
+
+	# Default "Include".
+	if(NOT PARGS_INCL_DIR)
+		set(PARGS_INCL_DIR Include)
 	endif()
 
   #}
@@ -157,7 +176,7 @@ function(SA_TargetInterfaceSources _target)
 	target_sources(${_target} INTERFACE ${SA_SOURCES_INTERFACE})
 
 	# Interface include directory (access from project's outside).
-	target_include_directories(${_target} INTERFACE ${PARGS_SRC_DIR})
+	target_include_directories(${_target} INTERFACE ${PARGS_INCL_DIR})
 
 endfunction(SA_TargetInterfaceSources)
 

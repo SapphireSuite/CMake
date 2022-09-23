@@ -108,6 +108,7 @@ Helper functions to add public and/or private sources and include directories to
 SA_TargetSources(<target> PUBLIC_SRC_DIR <public_src_dir> PUBLIC_INCL_DIR <public_include_dir> PRIVATE_SRC_DIR <private_src_dir>)
 SA_TargetPublicSources(<target> SRC_DIR <public_src_dir> INCL_DIR <public_include_dir>)
 SA_TargetPrivateSources(<target> SRC_DIR <private_src_dir>)
+SA_TargetInterfaceSources(<target> SRC_DIR <public_src_dir> INCL_DIR <public_include_dir>)
 ```
 
 > Default values:
