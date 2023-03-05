@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Sapphire's Suite. All Rights Reserved.
+# Copyright (c) 2023 Sapphire's Suite. All Rights Reserved.
 
 include(SA_ConfigureProject.cmake)
 include(SA_ConfigureTarget.cmake)

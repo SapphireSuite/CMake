@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Sapphire's Suite. All Rights Reserved.
+# Copyright (c) 2023 Sapphire's Suite. All Rights Reserved.
 
 # Internal helper macro to setup configurations for MSVC.
 macro(__SA_SetupConfiguration_MSVC)

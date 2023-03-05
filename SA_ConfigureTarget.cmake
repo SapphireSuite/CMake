@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Sapphire's Suite. All Rights Reserved.
+# Copyright (c) 2023 Sapphire's Suite. All Rights Reserved.
 
 # Configure a target from Sapphire Suite's config.
 # Set standard to C11/C++20

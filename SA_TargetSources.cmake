@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Sapphire's Suite. All Rights Reserved.
+# Copyright (c) 2023 Sapphire's Suite. All Rights Reserved.
 
 # Add *public* sources and include directory to a target (using target_sources and target_include_directories).
 #
