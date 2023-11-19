@@ -1,6 +1,6 @@
 # Copyright (c) 2023 Sapphire's Suite. All Rights Reserved.
 
-include(FetchContent)
+include(SA_FetchOrInclude.cmake)
 
 # Clone GoogleTest repository at config time and add it to ThirdParty/.
 # Automatically init git submodules.
@@ -10,19 +10,11 @@ include(FetchContent)
 #
 function(SA_FetchGoogleTest)
 
-	if(NOT TARGET gtest)
-
-		message("Fetching Google Test...")
-
-		FetchContent_Declare(
-			googletest
-			GIT_REPOSITORY https://github.com/google/googletest.git
-			GIT_TAG        release-1.11.0
-			SOURCE_DIR		${CMAKE_SOURCE_DIR}/ThirdParty/googletest
-		)
-
-		FetchContent_MakeAvailable(googletest)
-
-	endif()
+	SA_FetchOrInclude(
+		GIT_REPOSITORY	https://github.com/google/googletest
+		GIT_TAG			release-1.11.0
+		CMAKE_TARGET	gtest
+		REPO_FULL_NAME	"Google Test"
+	)
 
 endfunction(SA_FetchGoogleTest)

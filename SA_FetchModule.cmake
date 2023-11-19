@@ -1,6 +1,6 @@
 # Copyright (c) 2023 Sapphire's Suite. All Rights Reserved.
 
-include(FetchContent)
+include(SA_FetchOrInclude.cmake)
 
 # Clone a git repository from Sapphire Suite (module) at config time and add it to ThirdParty/SA/<repo_name>.
 # Automatically init git submodules.
@@ -18,21 +18,12 @@ function(SA_FetchModule _module_name)
 
 	set(SA_MODULE_NAME "SA_${_module_name}")
 
-	if(NOT TARGET ${SA_MODULE_NAME})
-
-		message("Fetching ${SA_MODULE_NAME}...")
-
-		set(SA_MODULE_TARGET_SOURCE_DIR ${CMAKE_SOURCE_DIR}/ThirdParty/SA/${_module_name})
-
-		FetchContent_Declare(
-			${SA_MODULE_NAME}
-			GIT_REPOSITORY	https://github.com/SapphireSuite/${_module_name}.git
-			GIT_TAG			main
-			SOURCE_DIR		${SA_MODULE_TARGET_SOURCE_DIR}
-		)
-
-		FetchContent_MakeAvailable(${SA_MODULE_NAME})
-
-	endif()
+	SA_FetchOrInclude(
+		GIT_REPOSITORY	https://github.com/SapphireSuite/${_module_name}
+		GIT_TAG			main
+		CMAKE_TARGET	${SA_MODULE_NAME}
+		REPO_FULL_NAME	${SA_MODULE_NAME}
+		SOURCE_DIR		"ThirdParty/SA"
+	)
 
 endfunction(SA_FetchModule)
